@@ -175,21 +175,21 @@ public class Servidor50 {
            hiloWork[i] = new hilo(i,a,b);
            Thread t = new Thread(hiloWork[i]);
            t.start();
-            try{
+            /*try{
                 t.join();
             }catch(Exception e){
                 System.out.println("error:"+e.toString());
-            }
+            }*/
 
        }
 
-       /*for (int i = 0; i < H; i++){
+       for (int i = 0; i < H; i++){
             try{
                hiloWork[i].join();
            }catch(Exception e){
                System.out.println("error:"+e.toString());
            }
-       }*/
+       }
        double total = 0;
         for (int i = 0; i < rpta.length; i++){
             total += rpta[i];
