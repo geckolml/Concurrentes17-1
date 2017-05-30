@@ -13,7 +13,7 @@ public class Servidor50 {
 
    double A, B;
    int H;
-
+    String[] aux;
    private Lock bloqueo = new ReentrantLock();
     
    double[] rpta = new double[1000];
@@ -98,7 +98,30 @@ public class Servidor50 {
             System.out.println("SERVIDOR40 El mensaje:" + llego);
 
             */
-            String[] aux = llego.split(" ");
+
+        Thread aux2 =new Thread(
+             new Runnable() {
+
+                 @Override
+                 public void run() {
+                       aux = llego.split(" ");
+                        A = Double.parseDouble(aux[1]);
+                        B = Double.parseDouble(aux[2]);
+                        H = Integer.parseInt(aux[3]);
+                        double answer = procesoHilos(A, B, H, 1, 4);
+                        System.out.println("A:"+A);
+                        System.out.println("B:"+B);
+                        System.out.println("H:"+H);
+                        System.out.println("La respuesta procesado en el master es "+answer);
+                        //System.out.println("El mensaje llego es:"+llego);
+                        System.out.println("MENSAJE QUE RECIBE SERVIDOR DE CLIENTES : "+llego+"\n Enviando a Workers...");
+                    
+                 }
+             }
+         );
+        aux2.start();
+
+            /*String[] aux = llego.split(" ");
             double A, B;
             int H;
             A = Double.parseDouble(aux[1]);
@@ -110,7 +133,7 @@ public class Servidor50 {
             System.out.println("H:"+H);
             System.out.println("La respuesta procesado en el master es "+answer);
             //System.out.println("El mensaje llego es:"+llego);
-            System.out.println("MENSAJE QUE RECIBE SERVIDOR DE CLIENTES : "+llego+"\n Enviando a Workers...");
+            System.out.println("MENSAJE QUE RECIBE SERVIDOR DE CLIENTES : "+llego+"\n Enviando a Workers...");*/
             mTcpServerWorker.sendMessageTCPServerWorker(llego);
             
 
