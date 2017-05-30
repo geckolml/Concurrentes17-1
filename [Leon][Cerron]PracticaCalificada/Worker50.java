@@ -13,8 +13,8 @@ class Worker50{
     public static void main(String[] args)  {
         Worker50 objcli = new Worker50();
         //addr = "192.168.0.110";//args[0]"";
-        addr="127.0.0.1";
-	       //addr="10.0.2.15";
+        //addr="127.0.0.1";
+        addr="10.0.2.15";
         objcli.iniciar();
     }
     void iniciar(){
