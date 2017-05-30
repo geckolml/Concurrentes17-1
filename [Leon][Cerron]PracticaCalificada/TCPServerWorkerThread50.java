@@ -69,23 +69,23 @@ public class TCPServerWorkerThread50 extends Thread{
                     }
 
                     //Verifica quien envia trabajo y quien es el trabajador
-                   /* if (clientID <= 1 && !soycontador){
+                    if (workerID <= 1 && !soycontador){
                         String mitabla = "SoyClienteEnviaTrabajo";
-                        mOut.println( mitabla + "soy el numero;" + clientID + ";" + tcpserver.nrcli);
+                        mOut.println( mitabla + "soy el numero;" + workerID + ";" + tcpserverW.nrcli);
                         soycontador = true;
                     }else if ( !soycontador){
                         String mitabla = "SoyTrabajador";
-                        mOut.println( mitabla + "soy el numero;" + clientID + ";" + tcpserver.nrcli);
+                        mOut.println( mitabla + "soy el numero;" + workerID + ";" + tcpserverW.nrcli);
                         soycontador = true;
 
                     }
                     //El cliente 1 envia el comando "TRA"
-                    if (clientID <= 1 && message.trim().contains("aaa")){
+                    if (workerID <= 1 && message.trim().contains("aaa")){
 
-                        tcpserver.sendMessageTCPServerWorker(message + " ;" + tcpserver.nrcli);
+                        tcpserverW.sendMessageTCPServerWorker(message + " ;" + tcpserverW.nrcli);
                         System.out.println("Envio el mensaje trabajo: 100000 TRA BAJEN_SLAVE");
                     }
-                    */
+                    
                     message = null;
                 }
                 System.out.println("RESPONSE FROM CLIENT"+ "S: Received Message: '" + message + "'");

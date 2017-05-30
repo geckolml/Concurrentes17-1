@@ -80,6 +80,7 @@ class Worker50{
                 long totalTime = System.currentTimeMillis() - time1;
                 System.out.println("El Tiempo es: " + totalTime + " milisegundos.");
                 //WorkerEnvia("La Respuesta es :" + id + ":" + answer);
+                System.out.println("La respuesta es: " + answer);
         }
     }
 
@@ -96,11 +97,11 @@ class Worker50{
             hiloWork[i] = new hilo(i,a,b);
             Thread t = new Thread(hiloWork[i]);
             t.start();
-//            try{
-//                t.join();
-//            }catch(Exception e){
-//                System.out.println("error:"+e.toString());
-//            }
+            //try{
+            //    t.join();
+            //}catch(Exception e){
+            //    System.out.println("error:"+e.toString());
+            //}
 
         }
 
@@ -111,11 +112,12 @@ class Worker50{
                 System.out.println("error:"+e.toString());
             }
         }
+
         double total = 0;
         for (int i = 0; i < rpta.length; i++) {
             total += rpta[i];
         }
-	return total;
+    	return total;
     }
     class hilo extends Thread{
         double a, b, sum = .0;
@@ -134,7 +136,7 @@ class Worker50{
             rpta[id] = sum;
         }
         public double f(double x){
-            return (Math.sin(x)); // Colocar cualquier funcion
+            return (x); // Colocar cualquier funcion
         }
     }
     void WorkerEnvia(String envia){

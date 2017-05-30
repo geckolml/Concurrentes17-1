@@ -15,6 +15,8 @@ public class Servidor50 {
    int H;
 
    private Lock bloqueo = new ReentrantLock();
+    
+   double[] rpta = new double[1000];
 
    public static void main(String[] args) {
        Servidor50 objser = new Servidor50();
@@ -102,11 +104,15 @@ public class Servidor50 {
             A = Double.parseDouble(aux[1]);
             B = Double.parseDouble(aux[2]);
             H = Integer.parseInt(aux[3]);
-            //double answer = procesoHilos(A, B, H, 1, 4);
-            //System.out.println("La respuesta procesado en el master es "+answer);
+            double answer = procesoHilos(A, B, H, 1, 4);
+            System.out.println("A:"+A);
+            System.out.println("B:"+B);
+            System.out.println("H:"+H);
+            System.out.println("La respuesta procesado en el master es "+answer);
             //System.out.println("El mensaje llego es:"+llego);
             System.out.println("MENSAJE QUE RECIBE SERVIDOR DE CLIENTES : "+llego+"\n Enviando a Workers...");
             mTcpServerWorker.sendMessageTCPServerWorker(llego);
+            
 
    }
 
@@ -124,10 +130,6 @@ public class Servidor50 {
        }else
             System.out.println("SERVIDOR40 El mensaje:" + llego);
    }
-
-
-
-
 
    void ServidorEnvia(String envia){
         if (mTcpServerWorker != null) {
@@ -150,24 +152,26 @@ public class Servidor50 {
            hiloWork[i] = new hilo(i,a,b);
            Thread t = new Thread(hiloWork[i]);
            t.start();
-//            try{
-//                t.join();
-//            }catch(Exception e){
-//                System.out.println("error:"+e.toString());
-//            }
+            try{
+                t.join();
+            }catch(Exception e){
+                System.out.println("error:"+e.toString());
+            }
 
        }
 
-       for (int i = 0; i < H; i++){
+       /*for (int i = 0; i < H; i++){
             try{
                hiloWork[i].join();
            }catch(Exception e){
                System.out.println("error:"+e.toString());
            }
-       }
+       }*/
        double total = 0;
-
-return total;
+        for (int i = 0; i < rpta.length; i++){
+            total += rpta[i];
+        }
+        return total;
    }
    class hilo extends Thread{
        double a, b, sum = .0;
@@ -178,15 +182,15 @@ return total;
            id = id_;
        }
        public void run(){
-           double dx = 0.1; // Tamano del dx
-           for (double i = a; i < b; i+=dx) {
+           double dx = 0.01; // Tamano del dx
+           for (double i = a; i <= b; i+=dx) {
                sum += (f((i+i+dx)/2.0))*(dx); // Metodo Trapecio
                //sum += (f(i)*dx); //Metodo Rectangulos
            }
-           //rpta[id] = sum;
+           rpta[id] = sum;
        }
        public double f(double x){
-           return (Math.sin(x)); // Colocar cualquier funcion
+           return (x); // Colocar cualquier funcion
        }
    }
 
