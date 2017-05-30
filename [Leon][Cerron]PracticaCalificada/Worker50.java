@@ -52,7 +52,7 @@ class Worker50{
         System.out.println("WORKER50 El mensaje::" + llego);
 
         if ( llego.trim().contains("aaa")){
-
+                
                 String[] aux = llego.split(";");
                 for(int i = 0; i < aux.length; i++){
                     System.out.println("aux es: " + aux[i]);
@@ -63,17 +63,19 @@ class Worker50{
 
                 System.out.println("TCPWorker recibo trabajo:");
                 System.out.println("Clave verificada...");
-//                System.out.println("0 " + datos[0]);
-//                System.out.println("1 " + datos[1]);
-//                System.out.println("2 " + datos[2]);
-//                System.out.println("3 " + datos[3]);
+               // System.out.println("0 " + datos[0]);
+               // System.out.println("1 " + datos[1]);
+               // System.out.println("2 " + datos[2]);
+               // System.out.println("3 " + datos[3]);
+                
 
-                id = Integer.parseInt(aux[2]);
-                n = Integer.parseInt(aux[1]);
-
+                id = Integer.parseInt(aux[1])+1;
+                //n = Integer.parseInt(aux[1]);
+                n = 3;
+                // Solo 3 trabajadores 
                 A = Double.parseDouble(datos[1]);
                 B = Double.parseDouble(datos[2]);
-                H = Integer.parseInt(datos[3]);
+                H = Integer.parseInt(datos[3].split(";")[0]);
                 long time1 = System.currentTimeMillis();
                 double answer = procesoHilos(A, B, H, id, n);
                 long totalTime = System.currentTimeMillis() - time1;

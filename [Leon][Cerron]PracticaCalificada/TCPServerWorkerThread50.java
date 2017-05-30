@@ -15,21 +15,21 @@ import java.net.Socket;
 
 public class TCPServerWorkerThread50 extends Thread{
 
-    private Socket client;
-    private TCPServerWorker50 tcpserver;
-    private int clientID;
+    private Socket worker;
+    private TCPServerWorker50 tcpserverW;
+    private int workerID;
     private boolean running = false;
     public PrintWriter mOut;
     public BufferedReader in;
-    TCPServerWorker50.OnMessageReceived messageListener = null;
+    TCPServerWorker50.OnMessageReceived messageListenerW = null;
     private String message;
-    TCPServerWorkerThread50[] cli_amigos;
+    TCPServerWorkerThread50[] work_amigos;
 
-    public TCPServerWorkerThread50(Socket client_, TCPServerWorker50 tcpserver_, int clientID_,TCPServerWorkerThread50[] cli_ami_) {
-        this.client = client_;
-        this.tcpserver = tcpserver_;
-        this.clientID = clientID_;
-        this.cli_amigos = cli_ami_;
+    public TCPServerWorkerThread50(Socket worker_, TCPServerWorker50 tcpserver_, int workerID_,TCPServerWorkerThread50[] work_ami_) {
+        this.worker = worker_;
+        this.tcpserverW = tcpserver_;
+        this.workerID = workerID_;
+        this.work_amigos = work_ami_;
     }
 
      public void trabajen(int cli){
@@ -41,14 +41,14 @@ public class TCPServerWorkerThread50 extends Thread{
         try {
             try {
                 boolean soycontador = false;
-                mOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(client.getOutputStream())), true);
+                mOut = new PrintWriter(new BufferedWriter(new OutputStreamWriter(worker.getOutputStream())), true);
                 System.out.println("TCP Server Worker"+ "C: Sent.");
-                messageListener = tcpserver.getMessageListener();
-                in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                messageListenerW = tcpserverW.getMessageListener();
+                in = new BufferedReader(new InputStreamReader(worker.getInputStream()));
                 while (running) {
 
                     for(int i = 0; i < 10; i++){
-                        if ( cli_amigos[i] != null)
+                        if ( work_amigos[i] != null)
                             System.out.print("T");
                         else
                             System.out.print("F");
@@ -57,19 +57,19 @@ public class TCPServerWorkerThread50 extends Thread{
 
                     message = in.readLine();
 
-                    if (message != null && messageListener != null) {
-                        messageListener.messageReceived(message);
+                    if (message != null && messageListenerW != null) {
+                        messageListenerW.messageReceived(message);
                     }else{
                         //cli_amigos[clientID] = null; // Si esta muerto debe cambiar a null
-                        for(int i = clientID; i < 9; i++){
-                            cli_amigos[i] = cli_amigos[i+1];
+                        for(int i = workerID; i < 9; i++){
+                            work_amigos[i] = work_amigos[i+1];
                         }
-                        tcpserver.nrcli--;
+                        tcpserverW.nrcli--;
                         break;
                     }
 
                     //Verifica quien envia trabajo y quien es el trabajador
-                    if (clientID <= 1 && !soycontador){
+                   /* if (clientID <= 1 && !soycontador){
                         String mitabla = "SoyClienteEnviaTrabajo";
                         mOut.println( mitabla + "soy el numero;" + clientID + ";" + tcpserver.nrcli);
                         soycontador = true;
@@ -85,18 +85,18 @@ public class TCPServerWorkerThread50 extends Thread{
                         tcpserver.sendMessageTCPServerWorker(message + " ;" + tcpserver.nrcli);
                         System.out.println("Envio el mensaje trabajo: 100000 TRA BAJEN_SLAVE");
                     }
-
+                    */
                     message = null;
                 }
                 System.out.println("RESPONSE FROM CLIENT"+ "S: Received Message: '" + message + "'");
             } catch (Exception e) {
-                System.out.println("TCP Server"+ "S: Error"+ e);
+                System.out.println("TCP Server WORKER"+ "S: Error"+ e);
             } finally {
-                client.close();
+                worker.close();
             }
 
         } catch (Exception e) {
-            System.out.println("TCP Server"+ "C: Error"+ e);
+            System.out.println("TCP Server WORKER"+ "C: Error"+ e);
         }
     }
 

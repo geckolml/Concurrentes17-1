@@ -37,7 +37,7 @@ public class TCPServerClient50 {
 
     public void sendMessageTCPServerClient(String message){
         for (int i = 1; i <= nrcli; i++) {
-            sendclis[i].sendMessage(message + ";" + (i));
+            //sendclis[i].sendMessage(message + ";" + (i));
             System.out.println("ENVIANDO A SERVER " + (i));
         }
     }

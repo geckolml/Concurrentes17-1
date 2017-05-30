@@ -50,7 +50,7 @@ class Client50{
     }
     void ClientRecibe(String llego){
       //ClientEnvia("Empieza a trabajar Servidor");
-  System.out.println("CLIENTE50 El mensaje::" + llego);
+        //System.out.println("CLIENTE50 El mensaje::" + llego);
     /*  if ( llego.trim().contains("aaa")){
 
               String[] aux = llego.split(";");
@@ -83,9 +83,9 @@ class Client50{
       }
 
       */
-if ( llego.trim().contains("aaa")){
-      ClientEnvia(llego);
-    }
+        if ( llego.trim().contains("aaa")){
+            ClientEnvia(llego);
+        }
     }
 
     public double procesoHilos(Double A, Double B, int H, int idClient, int totalClientes){
@@ -131,7 +131,7 @@ if ( llego.trim().contains("aaa")){
             id = id_;
         }
         public void run(){
-            double dx = 0.0001; // Tamano del dx
+            double dx = 0.01; // Tamano del dx
             for (double i = a; i < b; i+=dx) {
                 sum += (f((i+i+dx)/2.0))*(dx); // Metodo Trapecio
                 //sum += (f(i)*dx); //Metodo Rectangulos

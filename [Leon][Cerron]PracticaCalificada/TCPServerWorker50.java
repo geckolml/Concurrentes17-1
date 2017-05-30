@@ -12,7 +12,7 @@ public class TCPServerWorker50 {
     public static final int SERVERPORT = 4444;
     private OnMessageReceived messageListener = null;
     private boolean running = false;
-    TCPServerWorkerThread50[] sendclis = new TCPServerWorkerThread50[10];
+    TCPServerWorkerThread50[] sendworks = new TCPServerWorkerThread50[10];
 
     PrintWriter mOut;
     BufferedReader in;
@@ -30,14 +30,14 @@ public class TCPServerWorker50 {
 
     public void sendMessageTCPServer(String message){
         for (int i = 1; i <= nrcli; i++) {
-            sendclis[i].sendMessage(message);
+            sendworks[i].sendMessage(message);
             System.out.println("ENVIANDO A Worker " + (i));
         }
     }
 
     public void sendMessageTCPServerWorker(String message){
         for (int i = 1; i <= nrcli; i++) {
-            sendclis[i].sendMessage(message + ";" + (i));
+            sendworks[i].sendMessage(message + ";" + (i));
             System.out.println("ENVIANDO A Worker " + (i));
         }
     }
@@ -53,8 +53,8 @@ public class TCPServerWorker50 {
                 System.out.println("TCP Server"+"S: Receiving...");
                 nrcli++;
                 System.out.println("Engendrado " + nrcli);//////////////////////////////////////////////////
-                sendclis[nrcli] = new TCPServerWorkerThread50(client,this,nrcli,sendclis);
-                Thread t = new Thread(sendclis[nrcli]);
+                sendworks[nrcli] = new TCPServerWorkerThread50(client,this,nrcli,sendworks);
+                Thread t = new Thread(sendworks[nrcli]);
                 t.start();
                 System.out.println("Nuevo conectado:"+ nrcli+" cliente conectados");
 
@@ -67,7 +67,7 @@ public class TCPServerWorker50 {
         }
     }
     public  TCPServerWorkerThread50[] getWorkers(){
-        return sendclis;
+        return sendworks;
     }
 
     public interface OnMessageReceived {

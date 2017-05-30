@@ -69,7 +69,7 @@ public class TCPServerClientThread50 extends Thread{
                     }
 
                     //Verifica quien envia trabajo y quien es el trabajador
-                    if (clientID <= 1 && !soycontador){
+                    /*if (clientID <= 1 && !soycontador){
                         String mitabla = "SoyClienteEnviaTrabajo";
                         mOut.println( mitabla + "soy el numero;" + clientID + ";" + tcpserver.nrcli);
                         soycontador = true;
@@ -83,11 +83,11 @@ public class TCPServerClientThread50 extends Thread{
                     //*
                     if (clientID <= 1 && message.trim().contains("aaa")){
                         // Chequear esta linea
-                        //tcpserver.sendMessageTCPServerClient(message + " ;" + tcpserver.nrcli);
-                        tcpserver.sendMessageTCPServerClient(message );
+                        tcpserver.sendMessageTCPServerClient(message + " ;" + tcpserver.nrcli);
+                        //tcpserver.sendMessageTCPServerClient(message );
                         System.out.println("TCPSERVERCLIENTTHREAD ENVIA "+ message);
                     }
-
+                    */
                     message = null;
                 }
                 System.out.println("RESPONSE FROM CLIENT"+ "S: Received Message: '" + message + "'");

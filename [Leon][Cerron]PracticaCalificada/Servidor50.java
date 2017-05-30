@@ -19,9 +19,9 @@ public class Servidor50 {
    }
    void iniciar(){
 
-
+        
      // TCP Workers Puerto 4444
-
+        bloqueo.lock();
 
        Thread Work =new Thread(
              new Runnable() {
@@ -92,8 +92,8 @@ public class Servidor50 {
             System.out.println("SERVIDOR40 El mensaje:" + llego);
 
             */
-
-            double answer = procesoHilos(0.0, 100000000.0, 5, 1, 4);
+            
+            double answer = procesoHilos(0.0, 100.0, 5, 1, 3);
             System.out.println("La respuesta procesado en el master es "+answer);
             System.out.println("MENSAJE QUE RECIBE SERVIDOR DE CLIENTES : "+llego+"\n Enviando a Workers...");
             mTcpServerWorker.sendMessageTCPServerWorker(llego);
@@ -121,8 +121,9 @@ public class Servidor50 {
 
    void ServidorEnvia(String envia){
         if (mTcpServerWorker != null) {
-            //mTcpServerWorker.sendMessageTCPServer(envia);
-            mTcpServerWorker.sendMessageTCPServerWorker(envia);
+            // cambio ultimo1
+            mTcpServerWorker.sendMessageTCPServer(envia);
+            //mTcpServerWorker.sendMessageTCPServerWorker(envia);
         }
    }
 
@@ -167,7 +168,7 @@ return total;
            id = id_;
        }
        public void run(){
-           double dx = 0.0001; // Tamano del dx
+           double dx = 0.1; // Tamano del dx
            for (double i = a; i < b; i+=dx) {
                sum += (f((i+i+dx)/2.0))*(dx); // Metodo Trapecio
                //sum += (f(i)*dx); //Metodo Rectangulos
