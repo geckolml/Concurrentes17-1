@@ -52,7 +52,7 @@ class Worker50{
         System.out.println("WORKER50 El mensaje::" + llego);
 
         if ( llego.trim().contains("aaa")){
-                
+
                 String[] aux = llego.split(";");
                 for(int i = 0; i < aux.length; i++){
                     System.out.println("aux es: " + aux[i]);
@@ -67,7 +67,7 @@ class Worker50{
                // System.out.println("1 " + datos[1]);
                // System.out.println("2 " + datos[2]);
                // System.out.println("3 " + datos[3]);
-                
+
 
                 id = Integer.parseInt(aux[1])+1;
                 //n = Integer.parseInt(aux[1]);
@@ -79,7 +79,7 @@ class Worker50{
                 double answer = procesoHilos(A, B, H, id, n);
                 long totalTime = System.currentTimeMillis() - time1;
                 System.out.println("El Tiempo es: " + totalTime + " milisegundos.");
-                //WorkerEnvia("La Respuesta es :" + id + ":" + answer);
+                WorkerEnvia("La Respuesta es :" + id + ":" + answer);
                 System.out.println("La respuesta es: " + answer);
         }
     }
@@ -97,21 +97,21 @@ class Worker50{
             hiloWork[i] = new hilo(i, a, b, (int)B);
             Thread t = new Thread(hiloWork[i]);
             t.start();
-            try{
+            /*try{
                 t.join();
             }catch(Exception e){
                 System.out.println("error:"+e.toString());
-            }
+            }*/
 
         }
 
-        //for (int i = 0; i < H; i++){
-        //     try{
-        //        hiloWork[i].join();
-        //    }catch(Exception e){
-        //        System.out.println("error:"+e.toString());
-        //    }
-        //}
+        for (int i = 0; i < H; i++){
+            try{
+               hiloWork[i].join();
+           }catch(Exception e){
+               System.out.println("error:"+e.toString());
+           }
+        }
 
         double total = 0;
         for (int i = 0; i < rpta.length; i++) {

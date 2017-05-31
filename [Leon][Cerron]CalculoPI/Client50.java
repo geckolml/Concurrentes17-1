@@ -85,7 +85,8 @@ class Client50{
       */
 
         if(llego.trim().contains("bbb")){
-            System.out.println("El resultado de Pi es :"+ llego);
+            String[] aux = llego.split(" ");
+            System.out.println("El resultado de Pi es :"+ aux[1]);
         }
 
         if ( llego.trim().contains("aaa")){

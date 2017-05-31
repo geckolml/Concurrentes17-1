@@ -10,6 +10,10 @@ public class Servidor50 {
    TCPServerClient50 mTcpServerClient;
    TCPServerWorker50 mTcpServerWorker;
    Scanner sc;
+
+   int N_NODOS=4;
+   int n_cont=0;
+
    double resultadoPi=0.0;
 
    double A, B;
@@ -116,6 +120,7 @@ public class Servidor50 {
                         System.out.println("H:"+H);
                         System.out.println("La respuesta procesado en el master es "+answer);
                         resultadoPi+=answer;
+                        n_cont++;
                         //System.out.println("El mensaje llego es:"+llego);
                         System.out.println("MENSAJE QUE RECIBE SERVIDOR DE CLIENTES : "+llego+"\n Enviando a Workers...");
 
@@ -154,8 +159,14 @@ public class Servidor50 {
 
             System.out.println("La respuesta de " + id + " es: " + formatter.format(send));
             resultadoPi+=send;
+            n_cont++;
        }else
             System.out.println("SERVIDOR40 El mensaje:" + llego);
+
+      if(n_cont == N_NODOS){
+        mTcpServerClient.sendMessageTCPServer("bbb "+String.valueOf(resultadoPi));
+        n_cont=0;
+      }
    }
 
    void ServidorEnvia(String envia){
@@ -179,21 +190,21 @@ public class Servidor50 {
            hiloWork[i] = new hilo(i,a,b,(int)B) ;
            Thread t = new Thread(hiloWork[i]);
            t.start();
-            try{
-                t.join();
-            }catch(Exception e){
-                System.out.println("error:"+e.toString());
-            }
+            // try{
+            //     t.join();
+            // }catch(Exception e){
+            //     System.out.println("error:"+e.toString());
+            // }
 
        }
 
-       /*for (int i = 0; i < H; i++){
+       for (int i = 0; i < H; i++){
             try{
                hiloWork[i].join();
            }catch(Exception e){
                System.out.println("error:"+e.toString());
            }
-       }*/
+       }
        double total = 0;
         for (int i = 0; i < rpta.length; i++){
             total += rpta[i];
