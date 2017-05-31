@@ -87,6 +87,7 @@ class Worker50{
     public double procesoHilos(double A, double B, int H, int idWorker, int totalWorkers){
 
         hilo[] hiloWork = new hilo[H]; // Vector de Hilos
+        //Thread[] HILOS = new Thread[H];
         System.out.println(idWorker + " y " + totalWorkers );
         double Inf = A + ((B - A)*(double)(idWorker-1))/(double)totalWorkers;
         double Max = A + ((B - A)*(double)(idWorker))/(double)totalWorkers;
@@ -97,21 +98,29 @@ class Worker50{
             hiloWork[i] = new hilo(i, a, b, (int)B);
             Thread t = new Thread(hiloWork[i]);
             t.start();
-            /*try{
+            //HILOS[i] = new Thread(hiloWork[i]);
+            try{
                 t.join();
             }catch(Exception e){
                 System.out.println("error:"+e.toString());
-            }*/
+            }
 
         }
-
+        
+        /*for (int i = 0; i < H; i++){
+            try{
+                HILOS[i].start();
+            }catch(Exception e){
+                System.out.println("error:"+e.toString());
+            }
+        }
         for (int i = 0; i < H; i++){
             try{
-               hiloWork[i].join();
+                HILOS[i].join();
            }catch(Exception e){
                System.out.println("error:"+e.toString());
            }
-        }
+        }*/
 
         double total = 0;
         for (int i = 0; i < rpta.length; i++) {
