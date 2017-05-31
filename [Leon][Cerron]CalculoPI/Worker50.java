@@ -84,7 +84,7 @@ class Worker50{
         }
     }
 
-    public double procesoHilos(Double A, Double B, int H, int idWorker, int totalWorkers){
+    public double procesoHilos(double A, double B, int H, int idWorker, int totalWorkers){
 
         hilo[] hiloWork = new hilo[H]; // Vector de Hilos
         System.out.println(idWorker + " y " + totalWorkers );
@@ -94,7 +94,7 @@ class Worker50{
         for (int i = 0; i < H; i++) {
             double a = Inf + ((double)i * (Max - Inf))/(double)H;
             double b = Inf + ((double)(i+1) * (Max - Inf))/(double)H;
-            hiloWork[i] = new hilo(i,a,b);
+            hiloWork[i] = new hilo(i, a, b, (int)B);
             Thread t = new Thread(hiloWork[i]);
             t.start();
             //try{
@@ -121,22 +121,25 @@ class Worker50{
     }
     class hilo extends Thread{
         double a, b, sum = .0;
-        int id;
-        public hilo(int id_, double a_, double b_){
+        int id, N;
+        public hilo(int id_, double a_, double b_, int _N){
             a = a_;
             b = b_;
             id = id_;
+            N = _N;
         }
         public void run(){
-            int dx = 1; // Tamano del dx
-            for (int i = a; i <= b; i+=dx) {
-                sum += (f((i+i+dx)/2.0))*(dx); // Metodo Trapecio
+            //int dx = 1; // Tamano del dx
+            for (int i = (int)a; i <= (int)b; i++) {
+                sum += f(i, N); // Metodo Trapecio
                 //sum += (f(i)*dx); //Metodo Rectangulos
             }
             rpta[id] = sum;
         }
-        public double f(double x){
-            return (x); // Colocar cualquier funcion
+        public double f (int i, int N){ // N = B
+            double h = 1.0 / N;
+            double x = h * ((double)i - 0.5);
+            return (4.0/(1.0 + x*x)); // Colocar cualquier funcion
         }
     }
     void WorkerEnvia(String envia){
