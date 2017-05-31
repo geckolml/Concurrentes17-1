@@ -10,12 +10,13 @@ public class Servidor50 {
    TCPServerClient50 mTcpServerClient;
    TCPServerWorker50 mTcpServerWorker;
    Scanner sc;
+   double resultadoPi=0.0;
 
    double A, B;
    int H;
     String[] aux;
    private Lock bloqueo = new ReentrantLock();
-    
+
    double[] rpta = new double[1000];
 
    public static void main(String[] args) {
@@ -24,7 +25,7 @@ public class Servidor50 {
    }
    void iniciar(){
 
-        
+
      // TCP Workers Puerto 4444
         bloqueo.lock();
 
@@ -84,6 +85,7 @@ public class Servidor50 {
        System.out.println("Servidor bandera 02");
    }
    void ServidorClientRecibe(String llego){
+        resultadoPi=0.0;
        /*String[] aux = llego.split(":");
 
        if(aux.length > 1){
@@ -113,9 +115,10 @@ public class Servidor50 {
                         System.out.println("B:"+B);
                         System.out.println("H:"+H);
                         System.out.println("La respuesta procesado en el master es "+answer);
+                        resultadoPi+=answer;
                         //System.out.println("El mensaje llego es:"+llego);
                         System.out.println("MENSAJE QUE RECIBE SERVIDOR DE CLIENTES : "+llego+"\n Enviando a Workers...");
-                    
+
                  }
              }
          );
@@ -135,7 +138,7 @@ public class Servidor50 {
             //System.out.println("El mensaje llego es:"+llego);
             System.out.println("MENSAJE QUE RECIBE SERVIDOR DE CLIENTES : "+llego+"\n Enviando a Workers...");*/
             mTcpServerWorker.sendMessageTCPServerWorker(llego);
-            
+
 
    }
 
@@ -150,6 +153,7 @@ public class Servidor50 {
             System.out.println("SERVIDOR50 envia mensaje:: 0;4 ");
 
             System.out.println("La respuesta de " + id + " es: " + formatter.format(send));
+            resultadoPi+=send;
        }else
             System.out.println("SERVIDOR40 El mensaje:" + llego);
    }

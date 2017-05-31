@@ -83,6 +83,11 @@ class Client50{
       }
 
       */
+
+        if(llego.trim().contains("bbb")){
+            System.out.println("El resultado de Pi es :"+ llego);
+        }
+
         if ( llego.trim().contains("aaa")){
             ClientEnvia(llego);
         }
