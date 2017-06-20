@@ -178,13 +178,17 @@ public class Servidor50 {
    }
 
    public double procesoHilos(double A, double B, int H, int idCliente, int totalClientes){
-
+       final int TRABAJO_COLA = 10000000;
        hilo[] hiloWork = new hilo[H]; // Vector de Hilos
-       System.out.println(idCliente + " y " + totalClientes );
-       double Inf = A + ((B - A)*(double)(idCliente-1))/(double)totalClientes;
+       System.out.println(idCliente + " y " + totalClientes );//
+       double Inf = A + ((B - A)*(double)(idCliente-1))/(double)totalClientes; // Balanceo para cada nodo
        double Max = A + ((B - A)*(double)(idCliente))/(double)totalClientes;
        System.out.println("Limite Inferior : " + Inf + " Limite Superior : " + Max);
-       for (int i = 0; i < H; i++) {
+
+       TasksQueue[]  WorTasks = new TasksQueue[H+1];
+       BlockingQueue<String> cola = new ArrayBlockingQueue<String>(TRABAJO_COLA);
+
+       for (int i = 0; i < H; i++) { // Balanceo para cada nhilos
            double a = Inf + ((double)i * (Max - Inf))/(double)H;
            double b = Inf + ((double)(i+1) * (Max - Inf))/(double)H;
            hiloWork[i] = new hilo(i,a,b,(int)B) ;
