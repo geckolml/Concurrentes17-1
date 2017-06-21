@@ -1,6 +1,8 @@
 
 import java.util.Scanner;
-
+import java.util.concurrent.locks.*;
+import java.util.concurrent.*;
+import java.io.*;
 class Worker50{
     TCPWorker50 mTcpWorker;
     Scanner sc;
@@ -85,14 +87,15 @@ class Worker50{
     }
 
     public double procesoHilos(double A, double B, int H, int idWorker, int totalWorkers){
-
-        hilo[] hiloWork = new hilo[H]; // Vector de Hilos
+	final int TRABAJO_COLA = 10000000;
+        //hilo[] hiloWork = new hilo[H]; // Vector de Hilos
         //Thread[] HILOS = new Thread[H];
         System.out.println(idWorker + " y " + totalWorkers );
         double Inf = A + ((B - A)*(double)(idWorker-1))/(double)totalWorkers;
         double Max = A + ((B - A)*(double)(idWorker))/(double)totalWorkers;
         System.out.println("Limite Inferior : " + Inf + " Limite Superior : " + Max);
-        for (int i = 0; i < H; i++) {
+        
+	/*for (int i = 0; i < H; i++) {
             double a = Inf + ((double)i * (Max - Inf))/(double)H;
             double b = Inf + ((double)(i+1) * (Max - Inf))/(double)H;
             hiloWork[i] = new hilo(i, a, b, (int)B);
@@ -106,7 +109,7 @@ class Worker50{
             }
 
         }
-        
+        */
         /*for (int i = 0; i < H; i++){
             try{
                 HILOS[i].start();
@@ -121,7 +124,29 @@ class Worker50{
                System.out.println("error:"+e.toString());
            }
         }*/
+	TasksQueue[]  WorTasks = new TasksQueue[H+1];
+       BlockingQueue<String> cola = new ArrayBlockingQueue<String>(TRABAJO_COLA);
 
+       try{
+             for (int i = 0; i < H; i++) { // Balanceo para cada nhilos
+                 double a = Inf + ((double)i * (Max - Inf))/(double)H;
+                 double b = Inf + ((double)(i+1) * (Max - Inf))/(double)H;
+                 //hiloWork[i] = new hilo(i,a,b,(int)B) ;
+                 //Thread t = new Thread(hiloWork[i]);
+                 String s = String.valueOf(i)+"_"+String.valueOf(a) + "_"+String.valueOf(b)+ "_"+String.valueOf(B); // i a b
+                 cola.put(s);
+             }
+     }catch( Exception e){
+       System.out.println("Error producido por George ! ");
+
+     }
+
+     System.out.println("3  "+ "");
+        for (int i = 1;  i <= H ; i++) {
+            WorTasks[i] = new TasksQueue(cola);
+            Thread t= new Thread(WorTasks[i]);
+            t.start();
+        }
         double total = 0;
         for (int i = 0; i < rpta.length; i++) {
             total += rpta[i];
@@ -156,4 +181,76 @@ class Worker50{
             mTcpWorker.sendMessage(envia);
         }
     }
+
+
+	
+   public class TasksQueue implements Runnable{
+       private BlockingQueue<String> cola;
+
+       public  TasksQueue(BlockingQueue<String> cola_){
+           this.cola = cola_;
+       }
+       public void taskuno(String llego) throws IOException{
+           String[] aux = llego.split("_");
+           double sum = 0;
+
+           System.out.println("WorkerTask153 recibe el mensaje::" + llego);
+           double parc_rpta = 0;
+           int it = Integer.parseInt(aux[0]);
+           double a = Double.parseDouble(aux[1]);
+           double b =Double.parseDouble(aux[2]);
+           double n_part = Double.parseDouble(aux[3]);
+   //        int dat = Integer.parseInt(llego);   ///LLEGA LA TAREA "dat" UN ENTERO
+            int part = (int)n_part;
+
+        for (int i = (int)a; i <= (int)b; i++) {
+            sum += funcion(i, part); // Metodo Trapecio
+              //sum += (f(i)*dx); //Metodo Rectangulos
+          }
+          rpta[it] = sum;
+
+
+           //parc_rpta = funcion(dat);                          ///REALIZA LA FUNCION
+           //System.out.println("WORKER resulado:" + rpta);
+           //rpta[it] = parc_rpta;
+       }
+       String leoWor;
+       public void run(){
+           int cont = 0;
+           try{
+
+           while(true){
+               if ( (leoWor = cola.take()) != null ){
+                   System.out.println("tarea:" + cont + "  es:" + leoWor);
+                   taskuno(leoWor);
+                   cont++;
+               }
+           }
+
+           }catch ( IOException e){
+               System.out.println("error errorr T:" + e.toString());
+           }catch(InterruptedException e){
+               System.out.println("error errorr Y:"+e.toString());
+           }
+
+       }
+
+   /*
+       double funcion(int fin){
+           double sum = 0;
+           for(int j = 0; j<=fin;j++ ){
+               sum = sum + Math.sin(j*Math.random());
+           }
+
+           return sum;
+       }*/
+
+
+     public double funcion (int i,int N){ // N = B
+                double h = 1.0 / N;
+                double x = h * ((double)i - 0.5);
+                return (4.0/(1.0 + x*x)); // Colocar cualquier funcion
+            }
+   }
+
 }

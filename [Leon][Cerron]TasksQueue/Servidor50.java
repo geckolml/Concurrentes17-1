@@ -270,9 +270,10 @@ public class Servidor50 {
            double b =Double.parseDouble(aux[2]);
            double n_part = Double.parseDouble(aux[3]);
    //        int dat = Integer.parseInt(llego);   ///LLEGA LA TAREA "dat" UN ENTERO
+            int part = (int)n_part;
 
         for (int i = (int)a; i <= (int)b; i++) {
-            sum += funcion(i, (int)n_part); // Metodo Trapecio
+            sum += funcion(i, part); // Metodo Trapecio
               //sum += (f(i)*dx); //Metodo Rectangulos
           }
           rpta[it] = sum;
@@ -319,9 +320,6 @@ public class Servidor50 {
                 double x = h * ((double)i - 0.5);
                 return (4.0/(1.0 + x*x)); // Colocar cualquier funcion
             }
-
-
-
    }
 
 
