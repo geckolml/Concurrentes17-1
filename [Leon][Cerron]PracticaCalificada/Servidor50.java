@@ -11,6 +11,9 @@ public class Servidor50 {
    TCPServerWorker50 mTcpServerWorker;
    Scanner sc;
 
+   double A, B;
+   int H;
+
    private Lock bloqueo = new ReentrantLock();
 
    public static void main(String[] args) {
@@ -74,6 +77,7 @@ public class Servidor50 {
         while( !salir.equals("s")){
             salir = sc.nextLine();
             ServidorEnvia(salir);
+            //System.out.println("Renzo burro!");
        }
        System.out.println("Servidor bandera 02");
    }
@@ -92,9 +96,15 @@ public class Servidor50 {
             System.out.println("SERVIDOR40 El mensaje:" + llego);
 
             */
-            
-            double answer = procesoHilos(0.0, 100.0, 5, 1, 3);
-            System.out.println("La respuesta procesado en el master es "+answer);
+            String[] aux = llego.split(" ");
+            double A, B;
+            int H;
+            A = Double.parseDouble(aux[1]);
+            B = Double.parseDouble(aux[2]);
+            H = Integer.parseInt(aux[3]);
+            //double answer = procesoHilos(A, B, H, 1, 4);
+            //System.out.println("La respuesta procesado en el master es "+answer);
+            //System.out.println("El mensaje llego es:"+llego);
             System.out.println("MENSAJE QUE RECIBE SERVIDOR DE CLIENTES : "+llego+"\n Enviando a Workers...");
             mTcpServerWorker.sendMessageTCPServerWorker(llego);
 

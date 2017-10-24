@@ -13,8 +13,8 @@ class Worker50{
     public static void main(String[] args)  {
         Worker50 objcli = new Worker50();
         //addr = "192.168.0.110";//args[0]"";
-        //addr="127.0.0.1";
-        addr="10.0.2.15";
+        addr="127.0.0.1";
+        //addr="10.0.2.15";
         objcli.iniciar();
     }
     void iniciar(){
@@ -71,8 +71,7 @@ class Worker50{
 
                 id = Integer.parseInt(aux[1])+1;
                 //n = Integer.parseInt(aux[1]);
-                n = 3;
-                // Solo 3 trabajadores 
+                n = 4;
                 A = Double.parseDouble(datos[1]);
                 B = Double.parseDouble(datos[2]);
                 H = Integer.parseInt(datos[3].split(";")[0]);
